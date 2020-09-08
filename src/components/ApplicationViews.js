@@ -8,6 +8,7 @@ import { CustomerProvider } from "./customer/CustomerProvider"
 import { CustomerList } from "./customer/CustomerList"
 import { EmployeeList } from "./employee/EmployeeList"
 import { EmployeeProvider } from "./employee/EmployeeProvider"
+import { EmployeeForm } from "./employee/EmployeeForm.js"
 
 export const ApplicationViews = (props) => {
     return (
@@ -20,24 +21,43 @@ export const ApplicationViews = (props) => {
             </LocationProvider>
 
             <AnimalProvider>
-                    <CustomerProvider>
-                <LocationProvider>
-                        <Route path="/animals">
-                            <AnimalList />
-                        </Route>
-                </LocationProvider>
-                    </CustomerProvider>
+                <CustomerProvider>
+                    <LocationProvider>
+                        <Route path="/animals" render={(props) => {
+                            return <AnimalList history={props.history} />
+                        }} />
+                    </LocationProvider>
+                </CustomerProvider>
             </AnimalProvider>
             <EmployeeProvider>
-                <Route path="/employees">
-                    <EmployeeList />
-                </Route>
+                <AnimalProvider>
+                    <LocationProvider>
+                        <Route exact path="/employees/create" render={(props) => {
+                            return <EmployeeForm {...props} />
+                        }} />
+
+                    </LocationProvider>
+                </AnimalProvider>
+            </EmployeeProvider>
+
+            <EmployeeProvider>
+                <LocationProvider>
+                    <Route exact path="/employees" render={(props) => {
+                        return <EmployeeList history={props.history} />
+                    }} />
+                </LocationProvider>
             </EmployeeProvider>
             <CustomerProvider>
                 <Route path="/customers">
                     <CustomerList />
                 </Route>
             </CustomerProvider>
+            <Route path="/logout" render={
+                (props) => {
+                    localStorage.removeItem("kennel_customer")
+                    props.history.push("/login")
+                }
+            } />
         </>
     )
 }
