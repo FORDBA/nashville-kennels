@@ -4,38 +4,89 @@ import { LocationProvider } from "./location/LocationProvider"
 import { AnimalProvider } from "./animal/AnimalProvider"
 import { LocationList } from "./location/LocationList"
 import { AnimalList } from "./animal/AnimalList"
-import { CustomerProvider } from "./customer/CustomerProvider"
-import { CustomerList } from "./customer/CustomerList"
-import { EmployeeList } from "./employee/EmployeeList"
-import { EmployeeProvider } from "./employee/EmployeeProvider"
+import { CustomerProvider } from "./customer/CustomerProvider.js"
+import { CustomerList } from "./customer/CustomerList.js"
+import { EmployeeProvider } from "./employee/EmployeeProvider";
+import { EmployeeList } from "./employee/EmployeeList";
 import { EmployeeForm } from "./employee/EmployeeForm.js"
+import { AnimalForm } from "./animal/AnimalForm.js"
+import { EmployeeDetail } from "./employee/EmployeeDetail.js"
+import { LocationDetail } from "./location/LocationDetail.js"
+import { AnimalDetails } from "./animal/AnimalDetail.js"
+import { AnimalSearch } from "./animal/AnimalSearch.js"
 
 export const ApplicationViews = (props) => {
     return (
         <>
             <LocationProvider>
-                {/* Render the location list when http://localhost:3000/ */}
-                <Route exact path="/">
-                    <LocationList />
-                </Route>
+                <EmployeeProvider>
+                    <AnimalProvider>
+                        <Route exact path="/">
+                            <LocationList />
+                        </Route>
+
+                        <Route path="/locations/:locationId(\d+)" render={
+                            props => <LocationDetail {...props} />
+                        } />
+                    </AnimalProvider>
+                </EmployeeProvider>
             </LocationProvider>
 
             <AnimalProvider>
                 <CustomerProvider>
                     <LocationProvider>
-                        <Route path="/animals" render={(props) => {
-                            return <AnimalList history={props.history} />
+
+                        <Route exact path="/animals" render={(props) => {
+                            return <>
+                                <AnimalSearch />
+                                <AnimalList history={props.history} />
+                            </>
                         }} />
+
+
+                        <Route exact path="/animals/create" render={(props) => {
+                            return <AnimalForm {...props} />
+                        }} />
+
+                        {/*
+                            /animals/2
+                            /animals/:animalId(\d+)
+                        */}
+                        <Route path="/animals/:animalId(\d+)" render={
+                            props => <AnimalDetails {...props} />
+                        } />
+                        <Route path="/animals/edit/:animalId(\d+)" render={
+                            props => <AnimalForm {...props} />
+                        } />
                     </LocationProvider>
                 </CustomerProvider>
             </AnimalProvider>
+
+
+            <CustomerProvider>
+                <Route path="/customers">
+                    <CustomerList />
+                </Route>
+            </CustomerProvider>
+
+            <Route path="/logout" render={
+                (props) => {
+                    localStorage.removeItem("kennel_customer")
+                    props.history.push("/login")
+                }
+            } />
+
             <EmployeeProvider>
                 <AnimalProvider>
                     <LocationProvider>
-                        <Route exact path="/employees/create" render={(props) => {
+                        <Route path="/employees/create" render={(props) => {
                             return <EmployeeForm {...props} />
                         }} />
 
+
+                        <Route path="/employees/:employeeId(\d+)" render={
+                            props => <EmployeeDetail {...props} />
+                        } />
                     </LocationProvider>
                 </AnimalProvider>
             </EmployeeProvider>
@@ -47,17 +98,6 @@ export const ApplicationViews = (props) => {
                     }} />
                 </LocationProvider>
             </EmployeeProvider>
-            <CustomerProvider>
-                <Route path="/customers">
-                    <CustomerList />
-                </Route>
-            </CustomerProvider>
-            <Route path="/logout" render={
-                (props) => {
-                    localStorage.removeItem("kennel_customer")
-                    props.history.push("/login")
-                }
-            } />
         </>
     )
 }
