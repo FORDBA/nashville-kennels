@@ -1,38 +1,34 @@
 import React, { useContext, useEffect } from "react"
 import { EmployeeContext } from "./EmployeeProvider"
-import { LocationContext } from "../location/LocationProvider.js";
-import { Employee } from "./Employee"
+import { Link } from "react-router-dom"
 import "./Employee.css"
 
-export const EmployeeList = (props) => {
-    
+export const EmployeeList = props => {
     const { employees, getEmployees } = useContext(EmployeeContext)
-    const { locations, getLocations } = useContext(LocationContext)
 
-   
     useEffect(() => {
-        getEmployees().then(getLocations)
+        getEmployees()
     }, [])
 
-    
-    
-
     return (
-        <>
+        <div style={{ margin: "0rem 3rem"}}>
+            <h1>Employees</h1>
+
             <button onClick={() => props.history.push("/employees/create")}>
                 Add Employee
             </button>
+
             <article className="employees">
                 {
                     employees.map(employee => {
-                        const employeeLocation = locations.find(loc => loc.id === employee.locationId) || {}
-                        return <section key={employee.id} className="employee">
-                            <div><h3>{employee.name}</h3></div>
-                            <div>{employeeLocation.name}</div>
+                        return <section className="employee" key={employee.id}>
+                            <Link to={`/employees/${employee.id}`}>
+                                <h3>{employee.name}</h3>
+                            </Link>
                         </section>
                     })
                 }
             </article>
-        </>
+        </div>
     )
 }

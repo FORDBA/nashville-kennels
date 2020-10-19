@@ -1,10 +1,11 @@
+
 import React, { useContext, useRef, useEffect } from "react"
 import { EmployeeContext } from "./EmployeeProvider"
 import { LocationContext } from "../location/LocationProvider"
 import { AnimalContext } from "../animal/AnimalProvider"
 import "./Employee.css"
 
-export const EmployeeForm = (props) => {
+export const EmployeeForm = (burrito) => {
     const { addEmployee } = useContext(EmployeeContext)
     const { locations, getLocations } = useContext(LocationContext)
     const { animals, getAnimals } = useContext(AnimalContext)
@@ -14,7 +15,6 @@ export const EmployeeForm = (props) => {
         fields in the form. This will allow you to get the
         value of the input fields later when the user clicks
         the save button.
-
         No more `document.querySelector()` in React.
     */
     const name = useRef(null)
@@ -46,7 +46,7 @@ export const EmployeeForm = (props) => {
                 locationId,
                 animalId
             })
-            .then(() => props.history.push("/employees"))
+            .then(() => burrito.history.push("/employees"))
         }
     }
 
