@@ -5,7 +5,7 @@ import "./Animals.css"
 export const AnimalDetails = (props) => {
     const { releaseAnimal, getAnimalById } = useContext(AnimalContext)
 
-    const [animal, setAnimal] = useState({ location: {}, customer: {}})
+    const [animal, setAnimal] = useState({ location: {}, customer: {} })
 
     useEffect(() => {
         const animalId = parseInt(props.match.params.animalId)
@@ -19,7 +19,7 @@ export const AnimalDetails = (props) => {
             <div className="animal__breed">{animal.breed}</div>
             <div className="animal__location">Location: {animal.location.name}</div>
             <div className="animal__owner">Customer: {animal.customer.name}</div>
-            <div className="animal__treatment">Treatment: {animal.treatment}</div>
+            <div className="animal__treatment">Status: {animal.status}</div>
 
             <button onClick={() => releaseAnimal(animal.id).then(() => props.history.push("/animals"))} >Release Animal</button>
 

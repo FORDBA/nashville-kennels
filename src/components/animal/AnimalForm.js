@@ -1,4 +1,3 @@
-
 import React, { useContext, useState, useEffect } from "react"
 import { AnimalContext } from "./AnimalProvider"
 import { LocationContext } from "../location/LocationProvider"
@@ -65,7 +64,7 @@ export const AnimalForm = (props) => {
                     name: animal.name,
                     breed: animal.breed,
                     locationId: locationId,
-                    treatment: animal.treatment,
+                    status: animal.status,
                     customerId: parseInt(localStorage.getItem("kennel_customer"))
                 })
                     .then(() => props.history.push("/animals"))
@@ -75,7 +74,7 @@ export const AnimalForm = (props) => {
                     name: animal.name,
                     breed: animal.breed,
                     locationId: locationId,
-                    treatment: animal.treatment,
+                    status: animal.status,
                     customerId: parseInt(localStorage.getItem("kennel_customer"))
                 })
                     .then(() => props.history.push("/animals"))
@@ -124,9 +123,9 @@ export const AnimalForm = (props) => {
             </fieldset>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="treatment">Treatments: </label>
-                    <textarea type="text" name="treatment" className="form-control"
-                        value={animal.treatment}
+                    <label htmlFor="status">Treatments: </label>
+                    <textarea type="text" name="status" className="form-control"
+                        value={animal.status}
                         onChange={handleControlledInputChange}>
                     </textarea>
                 </div>

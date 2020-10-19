@@ -8,6 +8,7 @@ export const AnimalList = ({ history }) => {
 
     const [filteredAnimals, setFiltered] = useState([])
 
+    // Initialization effect hook -> Go get animal data
     useEffect(() => {
         getAnimals()
     }, [])
@@ -23,19 +24,15 @@ export const AnimalList = ({ history }) => {
     }, [animals])
 
     return (
-        <main className="animalContainer">
-            <h1>Animals</h1>
-
+        <div style={{ marginTop: "2rem"}}>
             <button onClick={() => history.push("/animals/create")}>
                 Make Reservation
-                </button>
+            </button>
             <div className="animals">
                 {
-                    filteredAnimals.map(animal => {
-                        return <Animal key={animal.id} animal={animal} />
-                    })
+                    filteredAnimals.map(animal => <Animal key={animal.id} animal={animal} />)
                 }
             </div>
-        </main>
+        </div>
     )
 }

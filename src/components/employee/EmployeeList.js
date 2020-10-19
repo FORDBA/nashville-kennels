@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect } from "react"
 import { EmployeeContext } from "./EmployeeProvider"
 import { Link } from "react-router-dom"
@@ -12,7 +11,7 @@ export const EmployeeList = props => {
     }, [])
 
     return (
-        <div>
+        <div style={{ margin: "0rem 3rem"}}>
             <h1>Employees</h1>
 
             <button onClick={() => props.history.push("/employees/create")}>
